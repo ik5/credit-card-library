@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<CONFIG>
+  <Compiler Value="/_/programming/fpc/fpc.2.2.4/compiler/ppcx64" Date="1235159619"/>
+  <Params Value=" -MObjFPC -Scgi -g -gl -gw -gh -gv -pg -vewnhi -l -Fu/_/programming/units/luhn/ -Fu/_/programming/units/creditcard/ -Fu. -FE/_/programming/units/creditcard/ -otest test.pp"/>
+</CONFIG>
