@@ -328,15 +328,11 @@ var
 
 function RegisterCreditCard(CreditCard : TNumberValidationRecord) : Integer;
 begin
- 
-  writeln('RegisterCreditCard: RegisterCards: ', RegisteredCards,' ord(High(CreditCardList)) : ', Ord(High(CreditCardList)));
   if RegisteredCards = Ord(High(CreditCardList)) then
     SetLength(CreditCardList, Length(CreditCardList) + 1);
 
   inc(RegisteredCards);
   CreditCardList[RegisteredCards] := CreditCard;
-  writeln('CreditCard : ');
-  writeln(#8, 'Name : ', CreditCard.Name);
   Result := RegisteredCards;
 end;
 
@@ -594,10 +590,8 @@ var
   i : cardinal;
 begin
   i := ((aTo - aFrom) + 1) + Length(Extra);
-  writeln('GetRange: SetLength: ', i);
   SetLength(Result, i);
   c := 0;
-  writeln('Going from ', aFrom, ' to ', aTo);
   for i := aFrom to aTo do
     begin
       Result[c] := i;
@@ -617,7 +611,6 @@ end;
 // Information was taken from: http://en.wikipedia.org/wiki/Credit_card_numbers
 begin
   RegisterCreditCard(PopulateRecord('MasterCard', cctMasterCard, [51, 52, 53, 54, 55], [16], validate));
-  writeln('Init 1');
   RegisterCreditCard(PopulateRecord('Visa', cctVisa, [4], [13,16], validate));
   RegisterCreditCard(PopulateRecord('Visa Electron', cctVisa, [417500, 4917,4913,4508,4844], [16], validate));
   RegisterCreditCard(PopulateRecord('American Express', cctAmericanExpress, [34, 37], [15], validate));
@@ -639,6 +632,5 @@ end;
 initialization
   SetLength(CreditCardList, Ord(high(CreditCardType)));
   RegisteredCards := -1;
-  writeln('Before init');
   InitList;
 end.
