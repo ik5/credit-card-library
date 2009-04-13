@@ -55,13 +55,13 @@ type
 
 type
   TNumberValidationRecord = record
-                              Name                : String;                 // The string name of the rule, you can like that
-                                                                            // create a sub types of Visa, Diners, MasterCards etc...
-                                                                            // The string is case insensitive
-                              CreditType          : CreditCardType;         // The type of the credit card
-                              Prefix              : TCreditCardPrefix;      // The prefix numbers of valid credit cards
-                              NumberLength        : TCredtCardLength;       // The valid length of numbers for the credit card number
-                              Validation          : TCreditCardValidation;  // The validation function for this credit card
+                              Name         : String;                 // The string name of the rule, you can like that
+                                                                     // create a sub types of Visa, Diners, MasterCards etc...
+                                                                     // The string is case insensitive
+                              CreditType   : CreditCardType;         // The type of the credit card
+                              Prefix       : TCreditCardPrefix;      // The prefix numbers of valid credit cards
+                              NumberLength : TCredtCardLength;       // The valid length of numbers for the credit card number
+                              Validation   : TCreditCardValidation;  // The validation function for this credit card
                             end;
 
 {
@@ -354,9 +354,9 @@ begin
   start  := 0;
   finish := RegisteredCards;
   case ID of
-    0               : begin
-                       Start  := 1;
-                      end;
+    0 : begin
+         Start  := 1;
+        end;
     else begin
           if ID = RegisteredCards then
             Start  := RegisteredCards
@@ -450,7 +450,6 @@ begin
     Exit(True);
 
   found := false;
-
 
   for i := Low(CreditCardList[aID].Prefix) to High(CreditCardList[aID].Prefix) do
     begin
