@@ -15,7 +15,8 @@
     along with this library; if not, write to the Free Software Foundation,
     Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 *)
-{$MODE OBJFPC}
+
+{$IFDEF FPC}{$MODE DELPHI} {$ENDIF}
 unit creditcard_validity;
 
 interface
@@ -51,7 +52,7 @@ type
 type
   TCreditCardPrefix     = array of Cardinal;
   TCredtCardLength      = array of Word;
-  TCreditCardValidation = function (const aNumber : string; MaxLength : Integer = 0) : Boolean;
+  TCreditCardValidation = function (const aNumber : string; MaxLength : Integer = 0) : Boolean; 
 
 type
   TNumberValidationRecord = record
@@ -98,7 +99,7 @@ procedure UpdateRegisteredCreditCard(CreditCard : TNumberValidationRecord; aID :
 
   Throw Exception if the aID is out of range
 }
-procedure UnregisterCreditCard(const ID : Integer);
+procedure UnregisterCreditCard(const ID : Integer); overload;
 
 {
   Unregister a credit card record by it's name.
@@ -110,7 +111,7 @@ procedure UnregisterCreditCard(const ID : Integer);
 
   Note: This method is more accurate if you create sub types of credit cards.
 }
-procedure UnregisterCreditCard(aName : String);
+procedure UnregisterCreditCard(aName : String); overload;
 
 {
    Finds the index of a credit card name
@@ -121,7 +122,7 @@ procedure UnregisterCreditCard(aName : String);
    Returns:
      The index number of the registered credit card or -1 if not found
 }
-function FindCreditCardName(const aName : String) : integer;
+function FindCreditCardName(const aName : String) : integer; overload;
 
 {
    Finds the index of a credit card type
@@ -132,7 +133,7 @@ function FindCreditCardName(const aName : String) : integer;
    Returns:
      The index number of the registered credit card or -1 if not found
 }
-function FindCreditCardType(const aType : CreditCardType) : integer;
+function FindCreditCardType(const aType : CreditCardType) : integer; overload;
 
 {
  This function checks if a number belongs to a specific credit card company.
@@ -146,7 +147,7 @@ function FindCreditCardType(const aType : CreditCardType) : integer;
    * True  - The credit card number have the right structure for the requested type
    * False - The structure is wrong to the type of credt card
 }
-function IsCreditType(const aNumber : String; aID : integer) : Boolean;
+function IsCreditType(const aNumber : String; aID : integer) : Boolean; overload;
 
 {
   This function checks if a number belongs to a specific credit card company.
@@ -160,7 +161,7 @@ function IsCreditType(const aNumber : String; aID : integer) : Boolean;
    * True  - The credit card number have the right structure for the requested type
    * False - The structure is wrong to the type of credt card
 }
-function IsCreditType(const aNumber : String; aType : CreditCardType) : Boolean; inline;
+function IsCreditType(const aNumber : String; aType : CreditCardType) : Boolean; inline; overload;
 
 {
   This function checks if a number belongs to a specific credit card company.
@@ -174,7 +175,7 @@ function IsCreditType(const aNumber : String; aType : CreditCardType) : Boolean;
    * True  - The credit card number have the right structure for the requested type
    * False - The structure is wrong to the type of credt card
 }
-function IsCreditType(const aNumber : String; aName : String) : Boolean; inline;
+function IsCreditType(const aNumber : String; aName : String) : Boolean; inline; overload;
 
 {
   The function check to see if the number structure passes the checksum tests (such as luhn).
@@ -188,7 +189,7 @@ function IsCreditType(const aNumber : String; aName : String) : Boolean; inline;
     * True  - The checksum passed
     * False - The checksum did not passed
 }
-function IsValidCreditCardNumber(const aNumber : String; aID : Integer) : Boolean;
+function IsValidCreditCardNumber(const aNumber : String; aID : Integer) : Boolean; overload;
 
 {
   The function check to see if the number structure passes the checksum tests (such as luhn).
@@ -202,7 +203,7 @@ function IsValidCreditCardNumber(const aNumber : String; aID : Integer) : Boolea
     * True  - The checksum passed
     * False - The checksum did not passed
 }
-function IsValidCreditCardNumber(const aNumber : String; aType : CreditCardType) : Boolean; inline;
+function IsValidCreditCardNumber(const aNumber : String; aType : CreditCardType) : Boolean; inline; overload;
 
 {
   The function check to see if the number structure passes the checksum tests (such as luhn).
@@ -216,7 +217,7 @@ function IsValidCreditCardNumber(const aNumber : String; aType : CreditCardType)
     * True  - The checksum passed
     * False - The checksum did not passed
 }
-function IsValidCreditCardNumber(const aNumber : String; aName : String) : Boolean; inline;
+function IsValidCreditCardNumber(const aNumber : String; aName : String) : Boolean; inline; overload;
 
 {
   The function validate the number structure and checksum
@@ -229,7 +230,7 @@ function IsValidCreditCardNumber(const aNumber : String; aName : String) : Boole
     * True  - The number is valid
     * False - The number is invalid
 }
-function IsValidStructureAndNumber(const aNumber : String; aID : Integer) : Boolean;
+function IsValidStructureAndNumber(const aNumber : String; aID : Integer) : Boolean; overload;
 
 {
  The function validate the number structure and checksum
@@ -242,7 +243,7 @@ function IsValidStructureAndNumber(const aNumber : String; aID : Integer) : Bool
     * True  - The number is valid
     * False - The number is invalid
 }
-function IsValidStructureAndNumber(const aNumber : String; aType : CreditCardType) : Boolean; inline;
+function IsValidStructureAndNumber(const aNumber : String; aType : CreditCardType) : Boolean; inline; overload;
 
 {
  The function validate the number structure and checksum
@@ -255,7 +256,7 @@ function IsValidStructureAndNumber(const aNumber : String; aType : CreditCardTyp
     * True  - The number is valid
     * False - The number is invalid
 }
-function IsValidStructureAndNumber(const aNumber : String; aName : String) : Boolean; inline;
+function IsValidStructureAndNumber(const aNumber : String; aName : String) : Boolean; inline; overload;
 
 {
   Check to see if the credit card name already registered
@@ -327,11 +328,15 @@ var
 
 function RegisterCreditCard(CreditCard : TNumberValidationRecord) : Integer;
 begin
+ 
+  writeln('RegisterCreditCard: RegisterCards: ', RegisteredCards,' ord(High(CreditCardList)) : ', Ord(High(CreditCardList)));
   if RegisteredCards = Ord(High(CreditCardList)) then
     SetLength(CreditCardList, Length(CreditCardList) + 1);
 
   inc(RegisteredCards);
   CreditCardList[RegisteredCards] := CreditCard;
+  writeln('CreditCard : ');
+  writeln(#8, 'Name : ', CreditCard.Name);
   Result := RegisteredCards;
 end;
 
@@ -566,8 +571,7 @@ procedure InitList;
 function PopulateRecord(aName       : String;                aCreditType   : CreditCardType;
                         aPrefix     : Array of Cardinal;     aNumberLength : Array of Word;
                         aValidation : TCreditCardValidation                                    ) : TNumberValidationRecord;
-var
-  i               : integer;
+var i : integer;
 begin
   with Result do
     begin
@@ -584,66 +588,57 @@ end;
 type
   TRange = array of cardinal;
 
-function GetRange(aFrom, aTo : Cardinal) : TRange;
+function GetRange(aFrom, aTo : Cardinal; Extra : array of cardinal) : TRange;
 var
   c : integer;
   i : cardinal;
 begin
-  SetLength(Result, (aTo - aFrom) + 1);
+  i := ((aTo - aFrom) + 1) + Length(Extra);
+  writeln('GetRange: SetLength: ', i);
+  SetLength(Result, i);
   c := 0;
+  writeln('Going from ', aFrom, ' to ', aTo);
   for i := aFrom to aTo do
     begin
       Result[c] := i;
       inc(c);
     end;
+
+  if Length(Extra) = 0 then
+    exit;
+
+  for i := Low(Extra) to High(Extra) do
+    begin
+      Result[c] := Extra[i];
+      inc(c);
+    end;
 end;
 
-var
- i, c : cardinal;
- arr  : TRange;
-
 // Information was taken from: http://en.wikipedia.org/wiki/Credit_card_numbers
-
 begin
-  RegisterCreditCard(PopulateRecord('MasterCard', cctMasterCard, [51, 52, 53, 54, 55], [16], @validate));
-  RegisterCreditCard(PopulateRecord('Visa', cctVisa, [4], [13,16], @validate));
-  RegisterCreditCard(PopulateRecord('Visa Electron', cctVisa, [417500, 4917,4913,4508,4844], [16], @validate));
-  RegisterCreditCard(PopulateRecord('American Express', cctAmericanExpress, [34, 37], [15], @validate));
-  RegisterCreditCard(PopulateRecord('Diners Club Carte Blanche', cctDiners, [300, 301, 302, 303, 304, 305], [14], @validate));
-  RegisterCreditCard(PopulateRecord('Diners Club International', cctDiners, [36], [14], @validate));
-  RegisterCreditCard(PopulateRecord('Diners Club US and Canada', cctDiners, [54, 55], [16], @validate));
+  RegisterCreditCard(PopulateRecord('MasterCard', cctMasterCard, [51, 52, 53, 54, 55], [16], validate));
+  writeln('Init 1');
+  RegisterCreditCard(PopulateRecord('Visa', cctVisa, [4], [13,16], validate));
+  RegisterCreditCard(PopulateRecord('Visa Electron', cctVisa, [417500, 4917,4913,4508,4844], [16], validate));
+  RegisterCreditCard(PopulateRecord('American Express', cctAmericanExpress, [34, 37], [15], validate));
+  RegisterCreditCard(PopulateRecord('Diners Club Carte Blanche', cctDiners, [300, 301, 302, 303, 304, 305], [14], validate));
+  RegisterCreditCard(PopulateRecord('Diners Club International', cctDiners, [36], [14], validate));
+  RegisterCreditCard(PopulateRecord('Diners Club US and Canada', cctDiners, [54, 55], [16], validate));
 
-  // There is a big range (799 numbers) to be added, so here is a small code to do it
-  SetLength(arr, 806);
-  arr[0] := 6011;
-  c := 1;
-  for i := 622126 to 622925 do
-    begin
-      arr[c] := i;
-      inc(c);
-    end;
+  RegisterCreditCard(PopulateRecord('Discover', cctDiscover, GetRange(622126, 622925, [644, 645, 646, 647, 648, 649, 65, 6011]), [16], validate)); 
+  RegisterCreditCard(PopulateRecord('JCB', cctJCB, GetRange(3528, 3589, []), [16], validate));
 
-  for i := 644 to 649 do
-    begin
-      arr[c] := i;
-      inc(c);
-    end;
-
-  arr[c] := 65;
-
-  RegisterCreditCard(PopulateRecord('Discover', cctDiscover, arr, [16], @validate)); //Adding the 806 numbers
-  RegisterCreditCard(PopulateRecord('JCB', cctJCB, GetRange(3528, 3589), [16], @validate));
-
-  RegisterCreditCard(PopulateRecord('Laser', cctLaser, [6304, 6706, 6771, 6709], [16, 17, 18, 19], @validate));
-  RegisterCreditCard(PopulateRecord('Maestro', cctMaestro, [5018,5020,5038,6304,6759,6761], [12, 13, 14, 15, 16, 17, 18, 19], @validate));
-  RegisterCreditCard(PopulateRecord('Solo', cctSolo, [6334, 6767], [16,18,19], @validate));
-  RegisterCreditCard(PopulateRecord('Switch', cctSwitch, [4903,4905,4911,4936,564182,633110,6333,6759], [16,18,19], @validate));
-  RegisterCreditCard(PopulateRecord('Isracard', cctIsracard, [], [8, 9], @IsracardValidNumber));
+  RegisterCreditCard(PopulateRecord('Laser', cctLaser, [6304, 6706, 6771, 6709], [16, 17, 18, 19], validate));
+  RegisterCreditCard(PopulateRecord('Maestro', cctMaestro, [5018,5020,5038,6304,6759,6761], [12, 13, 14, 15, 16, 17, 18, 19], validate));
+  RegisterCreditCard(PopulateRecord('Solo', cctSolo, [6334, 6767], [16,18,19], validate));
+  RegisterCreditCard(PopulateRecord('Switch', cctSwitch, [4903,4905,4911,4936,564182,633110,6333,6759], [16,18,19], validate));
+  RegisterCreditCard(PopulateRecord('Isracard', cctIsracard, [], [8, 9], IsracardValidNumber));
 
 end;
 
 initialization
   SetLength(CreditCardList, Ord(high(CreditCardType)));
   RegisteredCards := -1;
+  writeln('Before init');
   InitList;
 end.
