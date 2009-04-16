@@ -1,7 +1,13 @@
+About
+=====
+
 The following library contain source code for validating the checksum and structure of known credit cards companies.
 This information is released under LGPL and intended to help creating free library for checking validity of credit cards.
-The intent if the long run of this library it to be a shard library so all programming languages can use it inside.
+The intent in the long run of this library is to be a shard library so all programming languages can use it using binding.
 The code does not arrive instead of automatic banking validation systems, but as a measure that should arrive prior of using such system.
+
+Remarks
+-------
 
 The following version 0.1 beta is not fully checked, and there are few known problems:
   1. Not a full support for JCB - There is a need for additional information regarding that credit card.
